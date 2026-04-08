@@ -6,7 +6,7 @@ A repository that automatically mirrors all Minecraft language (localization) JS
 
 | Branch | Version |
 |--------|---------|
-| `main` (stable release) | <!-- LATEST_RELEASE -->unknown<!-- /LATEST_RELEASE --> |
+| `main` (stable release) | <!-- LATEST_RELEASE -->26.1.1<!-- /LATEST_RELEASE --> |
 | `snapshot` | <!-- LATEST_SNAPSHOT -->unknown<!-- /LATEST_SNAPSHOT --> |
 
 ## What's in this repo?
