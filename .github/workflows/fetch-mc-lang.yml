@@ -3,7 +3,7 @@ name: Fetch Minecraft Lang
 on:
   workflow_dispatch:  # Manual trigger
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+    - cron: '30 14 * * *'  # Daily at 14:30 UTC
 
 jobs:
   fetch-lang:
@@ -79,7 +79,10 @@ jobs:
           # `|| true` prevents the step from failing if there's nothing to pop.
           git stash pop || true
 
-          git add *.json
+          # Update the latest release version marker in README.md
+          sed -i 's|<!-- LATEST_RELEASE -->.*<!-- /LATEST_RELEASE -->|<!-- LATEST_RELEASE -->${{ steps.get_version.outputs.version }}<!-- /LATEST_RELEASE -->|' README.md
+
+          git add *.json README.md
           git commit -m "Update Minecraft lang files (latest ${{ steps.get_version.outputs.version }})" || echo "No changes"
           git push origin HEAD:main
   fetch-snapshot:
@@ -157,6 +160,9 @@ jobs:
           # `|| true` prevents the step from failing if there's nothing to pop.
           git stash pop || true
 
-          git add *.json
+          # Update the latest snapshot version marker in README.md
+          sed -i 's|<!-- LATEST_SNAPSHOT -->.*<!-- /LATEST_SNAPSHOT -->|<!-- LATEST_SNAPSHOT -->${{ steps.snapshot_version.outputs.version }}<!-- /LATEST_SNAPSHOT -->|' README.md
+
+          git add *.json README.md
           git commit -m "Update Minecraft lang files (snapshot ${{ steps.snapshot_version.outputs.version }})" || echo "No changes"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:snapshot
