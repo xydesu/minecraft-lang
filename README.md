@@ -10,7 +10,7 @@ A repository that automatically mirrors all Minecraft language (localization) JS
 
 ## How it works
 
-A GitHub Actions workflow (`fetch-mc-lang.yml`) runs automatically every day at **22:30 Taiwan Time (GMT+8)** (14:30 UTC). It:
+A GitHub Actions workflow (`fetch-mc-lang.yml`) runs automatically every day at **14:30 UTC**. It:
 
 1. Queries the [Mojang version manifest](https://piston-meta.mojang.com/mc/game/version_manifest_v2.json) for the latest release (and snapshot).
 2. Downloads the asset index for that version.
