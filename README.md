@@ -2,6 +2,13 @@
 
 A repository that automatically mirrors all Minecraft language (localization) JSON files, keeping them up to date with the latest official releases.
 
+## Current Versions
+
+| Branch | Version |
+|--------|---------|
+| `main` (stable release) | <!-- LATEST_RELEASE -->unknown<!-- /LATEST_RELEASE --> |
+| `snapshot` | <!-- LATEST_SNAPSHOT -->unknown<!-- /LATEST_SNAPSHOT --> |
+
 ## What's in this repo?
 
 - **Language files** – Every `.json` locale file shipped with Minecraft (e.g. `en_us.json`, `zh_tw.json`, `ja_jp.json`, …). Each file is a flat key-value mapping of translation keys to their localized strings.
