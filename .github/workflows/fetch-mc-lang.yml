@@ -160,9 +160,12 @@ jobs:
           # `|| true` prevents the step from failing if there's nothing to pop.
           git stash pop || true
 
-          # Update the latest snapshot version marker in README.md
-          sed -i 's|<!-- LATEST_SNAPSHOT -->.*<!-- /LATEST_SNAPSHOT -->|<!-- LATEST_SNAPSHOT -->${{ steps.snapshot_version.outputs.version }}<!-- /LATEST_SNAPSHOT -->|' README.md
+          if [ -f README.md ]; then
+            # Update the latest snapshot version marker in README.md
+            sed -i 's|<!-- LATEST_SNAPSHOT -->.*<!-- /LATEST_SNAPSHOT -->|<!-- LATEST_SNAPSHOT -->${{ steps.snapshot_version.outputs.version }}<!-- /LATEST_SNAPSHOT -->|' README.md
+            git add README.md
+          fi
 
-          git add *.json README.md
+          git add *.json
           git commit -m "Update Minecraft lang files (snapshot ${{ steps.snapshot_version.outputs.version }})" || echo "No changes"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:snapshot
