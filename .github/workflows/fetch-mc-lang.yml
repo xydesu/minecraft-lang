@@ -20,6 +20,7 @@ jobs:
         run: |
           VERSION_JSON=$(curl -s https://piston-meta.mojang.com/mc/game/version_manifest_v2.json)
           LATEST_VERSION=$(echo "$VERSION_JSON" | jq -r '.latest.release')
+          LATEST_SNAPSHOT=$(echo "$VERSION_JSON" | jq -r '.latest.snapshot')
           VERSION_URL=$(echo "$VERSION_JSON" | jq -r --arg VER "$LATEST_VERSION" '.versions[] | select(.id == $VER) | .url')
           
           # Download version details JSON to get client.jar URL
@@ -27,6 +28,7 @@ jobs:
           CLIENT_JAR_URL=$(echo "$VERSION_DATA" | jq -r '.downloads.client.url')
 
           echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "snapshot_version=$LATEST_SNAPSHOT" >> $GITHUB_OUTPUT
           echo "version_url=$VERSION_URL" >> $GITHUB_OUTPUT
           echo "client_jar_url=$CLIENT_JAR_URL" >> $GITHUB_OUTPUT
 
@@ -81,6 +83,8 @@ jobs:
 
           # Update the latest release version marker in README.md
           sed -i 's|<!-- LATEST_RELEASE -->.*<!-- /LATEST_RELEASE -->|<!-- LATEST_RELEASE -->${{ steps.get_version.outputs.version }}<!-- /LATEST_RELEASE -->|' README.md
+          # Update the latest snapshot version marker in README.md (on main branch)
+          sed -i 's|<!-- LATEST_SNAPSHOT -->.*<!-- /LATEST_SNAPSHOT -->|<!-- LATEST_SNAPSHOT -->${{ steps.get_version.outputs.snapshot_version }}<!-- /LATEST_SNAPSHOT -->|' README.md
 
           git add *.json README.md
           git commit -m "Update Minecraft lang files (latest ${{ steps.get_version.outputs.version }})" || echo "No changes"
